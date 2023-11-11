@@ -38,9 +38,12 @@ app.post('/', (req, res) => {
         userPassword: password
     }
 
-    save(singleUser);
+    // save(singleUser);
+    res.render('users-list.ejs')
 
-})
+});
+
+
 
 // Database:
 
@@ -68,10 +71,16 @@ function save(UserData) {
 
         var result = items.insertOne(doc);
         console.log(`A document was inserted with the _id: ${result.insertedId}`);
-    }catch{
+    } catch {
         console.log(error);
     }
 }
+
+
+ function getData() {
+
+}
+
 
 // Enable the site to start listeining on the declared port
 app.listen(port, () => {

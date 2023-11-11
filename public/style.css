@@ -1,5 +1,24 @@
 .form-container{ 
-    
-
     margin-top:15% ;
+}
+
+.users-container > a{ 
+    background-color: var(--bs-tertiary-bg);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    display: block;
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: black;
+    border: rgb(133, 133, 133) solid 0.2px;
+
+    box-shadow: -2px -1px 22px -1px rgba(210, 255, 251, 0.75);
+    -webkit-box-shadow: -2px -1px 22px -1px rgba(210, 255, 251, 0.75);
+    -moz-box-shadow: -2px -1px 22px -1px rgba(210, 255, 251, 0.75);
+}
+
+.users-container > a:hover { 
+    background-color: #e4e4e4 ;
+    color: rgb(37, 0, 173);
 }
