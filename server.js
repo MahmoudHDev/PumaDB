@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 import { MongoClient, ServerApiVersion } from 'mongodb';
+import { error } from 'console';
 
 const app = express();
 const port = 3000;
@@ -12,7 +13,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
 // in order to deal with page object smoothly.
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // in order to render the same view to different pages has an extension of .ejs
 app.set('view engine', 'ejs');
@@ -27,11 +28,19 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/', (req,res) => { 
-    console.log(req.body)
+app.post('/', (req, res) => {
+
+
+    const email = req.body.email;
+    const password = req.body.password;
+    var singleUser = {
+        userEmail: email,
+        userPassword: password
+    }
+
+    save(singleUser);
+
 })
-
-
 
 // Database:
 
@@ -44,26 +53,25 @@ const client = new MongoClient(uri, {
         deprecationErrors: true,
     }
 });
-// async function run() {
-//     try {
-//         const database = client.db("Products");
-//         const items = database.collection("Items");
 
-//         // create a document
-//         const doc = { 
-//             name:"Orange pie",
-//             desc: 'a simple pie with Oramnge flavor and syrup'
-//         };
-//         const result = await items.insertOne(doc);
-//         console.log(`A document was inserted with the _id: ${result.insertedId}`);
-//     } finally {
-//         // Ensures that the client will close when you finish/error
-//         await client.close();
-//     }
-// }
-// run().catch(console.dir);
+function save(UserData) {
 
+    try {
+        const database = client.db("Products");
+        const items = database.collection("users");
 
+        // create a document
+        var doc = {
+            email: UserData.userEmail,
+            password: UserData.userPassword
+        };
+
+        var result = items.insertOne(doc);
+        console.log(`A document was inserted with the _id: ${result.insertedId}`);
+    }catch{
+        console.log(error);
+    }
+}
 
 // Enable the site to start listeining on the declared port
 app.listen(port, () => {

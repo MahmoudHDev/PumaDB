@@ -1,0 +1,19 @@
+// Test on MongoDB
+// async function run() {
+//     try {
+//         const database = client.db("Products");
+//         const items = database.collection("Items");
+
+//         // create a document
+//         const doc = { 
+//             name:"Orange pie",
+//             desc: 'a simple pie with Oramnge flavor and syrup'
+//         };
+//         const result = await items.insertOne(doc);
+//         console.log(`A document was inserted with the _id: ${result.insertedId}`);
+//     } finally {
+//         // Ensures that the client will close when you finish/error
+//         await client.close();
+//     }
+// }
+// run().catch(console.dir);
