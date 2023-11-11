@@ -20,12 +20,17 @@ app.set('view engine', 'ejs');
 // in order to use external resources from folder 'public'.
 app.use('/public', express.static(path.join(__dirname, "public")));
 
-
 // first get request to show the home page.
 app.get('/', (req, res) => {
 
     res.render(__dirname + '/views/home.ejs');
 });
+
+
+app.post('/', (req,res) => { 
+    console.log(req.body)
+})
+
 
 
 // Database:
@@ -39,23 +44,23 @@ const client = new MongoClient(uri, {
         deprecationErrors: true,
     }
 });
-async function run() {
-    try {
-        const database = client.db("Products");
-        const items = database.collection("Items");
+// async function run() {
+//     try {
+//         const database = client.db("Products");
+//         const items = database.collection("Items");
 
-        // create a document
-        const doc = { 
-            name:" Pineapple pie",
-            desc: 'a simple pie with Pineapple flavor and syrup'
-        };
-        const result = await items.insertOne(doc);
-        console.log(`A document was inserted with the _id: ${result.insertedId}`);
-    } finally {
-        // Ensures that the client will close when you finish/error
-        await client.close();
-    }
-}
+//         // create a document
+//         const doc = { 
+//             name:"Orange pie",
+//             desc: 'a simple pie with Oramnge flavor and syrup'
+//         };
+//         const result = await items.insertOne(doc);
+//         console.log(`A document was inserted with the _id: ${result.insertedId}`);
+//     } finally {
+//         // Ensures that the client will close when you finish/error
+//         await client.close();
+//     }
+// }
 // run().catch(console.dir);
 
 
