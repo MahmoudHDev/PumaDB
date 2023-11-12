@@ -6,14 +6,14 @@
         <hr>
     </div>
 
-
-
     <div class="container col-2 users-container">
 
         <br>
-        <a href="#">First user</a>
-        <a href="#">First user</a>
-        <a href="#">First user</a>
+        <% for(let i=0; i < userArrInEjs.length; i++)  { %>
+            <a href="#">
+                <%= userArrInEjs[i] %>
+            </a>
+            <% } %>
     </div>
 
 

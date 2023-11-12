@@ -13,9 +13,9 @@
     color: black;
     border: rgb(133, 133, 133) solid 0.2px;
 
-    box-shadow: -2px -1px 22px -1px rgba(210, 255, 251, 0.75);
-    -webkit-box-shadow: -2px -1px 22px -1px rgba(210, 255, 251, 0.75);
     -moz-box-shadow: -2px -1px 22px -1px rgba(210, 255, 251, 0.75);
+    -webkit-box-shadow: -2px -1px 22px -1px rgba(210, 255, 251, 0.75);
+    box-shadow: -2px -1px 22px -1px rgba(210, 255, 251, 0.75);
 }
 
 .users-container > a:hover { 
