@@ -13,7 +13,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 var arrUsers = [];
 
 
-app.locals.delimiter = '?'
 // in order to deal with page object smoothly.
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -29,24 +28,28 @@ app.get('/', (req, res) => {
     res.render(__dirname + '/views/home.ejs');
 });
 
+app.post('/', async (req, res) => {
+    try {
+        // Use await to wait for fetchData to complete
+        await fetchData();
 
-app.post('/', (req, res) => {
+        const email = req.body.email;
+        const password = req.body.password;
+        const singleUser = {
+            userEmail: email,
+            userPassword: password
+        };
 
-    fetchData() 
-    const email = req.body.email;
-    const password = req.body.password;
-    var singleUser = {
-        userEmail: email,
-        userPassword: password
+        // Save the single user if needed
+        // save(singleUser);
+
+        res.render('users-list.ejs', { userArrInEjs: arrUsers });
+        console.log(arrUsers.length);
+    } catch (error) {
+        console.error("Error processing the request", error);
+        res.status(500).send("Internal Server Error");
     }
-
-    // save(singleUser);
-    res.render('users-list.ejs', {userArrInEjs: arrUsers, delimiter: '?'})
-
-   
 });
-
-
 
 // Database:
 
@@ -59,6 +62,14 @@ const client = new MongoClient(uri, {
         deprecationErrors: true,
     }
 });
+
+client.connect()
+    .then(() => {
+        console.log("Connected to the database");
+    })
+    .catch(err => {
+        console.error("Error connecting to the database", err);
+    });
 
 function save(UserData) {
 
@@ -80,32 +91,21 @@ function save(UserData) {
 }
 
 async function fetchData() {
-    try {
-        // Get the database and collection on which to run the operation
-        const database = client.db("Products");
-        const users = database.collection("users");
-        // Query for a movie that has the title 'The Room'
-        const query = { title: "The Room" };
-        const options = {
-            // Sort matched documents in descending order by rating
-            sort: { "imdb.rating": -1 },
-            // Include only the `title` and `imdb` fields in the returned document
-            projection: { _id: 0, title: 1, imdb: 1 },
-        };
-        // Execute query
-        const docs = await users.find().toArray();
-
-        for (var i = 0; i < docs.length; i++) {
-            const emailDoc = docs[i].email;
-            const passDoc = docs[i].password;
-            arrUsers.push(emailDoc);
-            // console.log(`email is: ${emailDoc}, and the password: ${passDoc}`);
-        }
-        // Print the document returned by findOne()
-        // console.log(docs);
-    } finally {
-        await client.close();
+    // Get the database and collection on which to run the operation
+    const database = client.db("Products");
+    const users = database.collection("users");
+    // Execute query
+    const docs = await users.find().toArray();
+    arrUsers.length = 0;
+    for (var i = 0; i < docs.length; i++) {
+        const emailDoc = docs[i].email;
+        const passDoc = docs[i].password;
+        arrUsers.push(emailDoc);
     }
+
+    console.log(arrUsers.length);
+    // Print the document returned by findOne()
+    // console.log(docs);
 }
 
 // Enable the site to start listeining on the declared port
